@@ -1,0 +1,34 @@
+[
+    {
+        "year":2014,
+        "url":"https://opendata.arcgis.com/datasets/505e89d2ade143a684d51b60236ba285_0.geojson"
+    },
+    {
+        "year":2015,
+        "url":"https://opendata.arcgis.com/datasets/025f3be66fbd48b888b779cf00928ae8_4.geojson"
+    },
+    {
+        "year":2016,
+        "url":"https://opendata.arcgis.com/datasets/a65c3aff0ef34973a2441b6cd0fbc24a_8.geojson"
+    },
+    {
+        "year":2017,
+        "url":"https://opendata.arcgis.com/datasets/b7f7158734f64e7f849df6ac4a6b10f1_12.geojson"
+    },
+    {
+        "year":2018,
+        "url":"https://opendata.arcgis.com/datasets/e4b4645cc47b462495305db0574982b5_16.geojson"
+    },
+    {
+        "year":2019,
+        "url":"https://opendata.arcgis.com/datasets/e132c88e875b429db4c1a3c80b7977da_20.geojson"
+    },
+    {
+        "year":2020,
+        "url":"https://opendata.arcgis.com/datasets/f3e14868231f4bbd825968203de64e48_24.geojson"
+    },
+    {
+        "year":2021,
+        "url":"https://opendata.arcgis.com/datasets/0c477e4a957e48ea90f007f72019b7c4_28.geojson"
+    }
+]
