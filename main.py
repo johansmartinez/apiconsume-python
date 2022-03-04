@@ -1,15 +1,14 @@
 import json
-import metricsByYear
-import json
 
+from metrics.metricsByYear import getMetricsYears
+from dbConnection.saveData import saveMultiData
+from dbConnection.getData import getData
 
-def writeFileData():
-    with open('config.json') as json_file:
-        config = json.load(json_file)
-        for element in config:
-            data=metricsByYear(element['year'], element['url'])
-            f = open("dataset/{}.json".format(element['year']), "w")
-            f.write(json.dumps(data, ensure_ascii=False))
-            f.close()
-            
-writeFileData()
+url=""
+with open('./keys/key.json') as json_file:
+    config = json.load(json_file)
+    url=config['urldb']
+
+#saveMultiData(getMetricsYears('./config.json'),url,'trinskapp','metrics')
+
+print(getData({},url,'trinskapp','metrics'))

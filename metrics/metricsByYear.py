@@ -1,6 +1,5 @@
-import sys
 import requests
-import sys
+import json
 
 def getMetricsByYear(year,url):
 
@@ -13,9 +12,9 @@ def getMetricsByYear(year,url):
         'total':len(a['features']),
         'tipos_accidente':{},
         'meses':{},
-        'neighborhood':{},
-        'days':{},
-        'risks':{}
+        'barrios':{},
+        'dias':{},
+        'riesgo':{}
     }
 
     def generateTotal(type,element):
@@ -33,10 +32,18 @@ def getMetricsByYear(year,url):
     for element in a['features']:
         generateTotal('tipos_accidente',element['properties']['CLASE'])
         generateTotal('meses',element['properties']['MES'])
-        generateTotal('neighborhood',element['properties']['BARRIO'])
-        generateTotal('days',element['properties']['DIA_NOMBRE'])
-        generateTotal('risks',element['properties']['GRAVEDAD'])
+        generateTotal('barrios',element['properties']['BARRIO'])
+        generateTotal('dias',element['properties']['DIA_NOMBRE'])
+        generateTotal('riesgo',element['properties']['GRAVEDAD'])
 
     return data
 
-sys.modules[__name__]=getMetricsByYear
+
+def getMetricsYears(urlfile):
+    dataset=[]
+    with open(urlfile) as json_file:
+        config = json.load(json_file)
+        for element in config:
+            data=getMetricsByYear(element['year'], element['url'])
+            dataset.append(data)
+    return dataset
