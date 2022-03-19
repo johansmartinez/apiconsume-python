@@ -1,18 +1,24 @@
 import json
 from geopy.distance import geodesic
+from dbConnection.saveData import saveMultiData
 
-
-DEFAULT_DISTANCE=0.002646001349619869
+DEFAULT_DISTANCE=0.310686 # 500m
 
 data=[]
 with open('./2014.geojson') as json_file:
     file = json.load(json_file)
     data= file['features']
 
+f = open("demofile.json", "w")
+f.write(json.dumps(data, ensure_ascii=False))
+f.close()
+
+
 #sacar la longitud y latitud determinar las zonas
 def determinateZones():
     temp=data
     zones=[]
+    cont=0
     for current in data :
         zone_current=[]
         for x in data:
@@ -23,13 +29,12 @@ def determinateZones():
                 zone_current.append({'lon':x['properties']['LONGITUD'],'lat': x['properties']['LATITUD'], 'riesgo':x['properties']['GRAVEDAD']})
                 temp.remove(x)
         zone_current.append({'lon':current['properties']['LONGITUD'],'lat': current['properties']['LATITUD'], 'riesgo':current['properties']['GRAVEDAD']})
-        print('VOY en el ',data.index(current)," quedán ", len(data))
-        #------
-        with open("pintar.json","a") as archivo:
-            json.dump(parseZone(zone_current),archivo)
-        #-----
+        print('VOY en el ',cont," quedán ", len(data))
+        cont+=1
         temp.remove(current)
-        zones.append(zone_current)
+        result=parseZone(zone_current)
+        if result!=None:
+            zones.append(result)
     return zones
 
 def scoreRisk(x):
@@ -46,19 +51,19 @@ def calculateRisk(zone):
         total+=scoreRisk(x)
     return total
 
-zone1=[]
-with open('./test.json') as json_file:
-    file = json.load(json_file)
-    zone1= file
 
 def calculateCentroid(zone):
     length = len(zone)
     sumLat=0
     sumLon=0
     for point in zone:
-        sumLat+= point['lat']
-        sumLon+= point['lon']
+        try:
+            sumLat+= point['lat']
+            sumLon+= point['lon']
+        except:
+            return None
     return  {'lon':sumLon/length , 'lat':sumLat/length}
+
 
 def calculateRadius(centroid, zone):
     maxDistance=0
@@ -68,13 +73,25 @@ def calculateRadius(centroid, zone):
         distance = geodesic(xCordinate, centroidCordinate).miles
         if distance> maxDistance:
             maxDistance=distance
-    return (DEFAULT_DISTANCE,maxDistance) [maxDistance==0]
+    if (maxDistance == 0):
+        return DEFAULT_DISTANCE
+    else:
+        return maxDistance
 
 def parseZone(zone):
     centroid= calculateCentroid(zone)
-    radius= calculateRadius(centroid, zone)
-    riskTotal=calculateRisk(zone)
-    return {'centroid':centroid, 'radius': radius, 'riskTotal':riskTotal, 'numberPoints': len(zone)}
+    if centroid!=None:
+        radius= calculateRadius(centroid, zone)
+        riskTotal=calculateRisk(zone)
+        return {'centroid':centroid, 'radius': radius, 'riskTotal':riskTotal, 'numberPoints': len(zone)}
+    else: 
+        return None
 
 #print(parseZone(zone1))
-determinateZones()
+
+url=""
+with open('./keys/key.json') as json_file:
+    config = json.load(json_file)
+    url=config['urldb']
+
+saveMultiData(determinateZones(),url,'trinskapp','zones')

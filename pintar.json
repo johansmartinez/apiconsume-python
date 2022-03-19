@@ -1,7 +1,0 @@
-[
-    {"centroid": {"lon": -75.60272578, "lat": 6.219015529999999}, "radius": 0.002646001349619869, "riskTotal": 23, "numberPoints": 11},
-    {"centroid": {"lon": -75.54994311, "lat": 6.264764710000001}, "radius": 0.002646001349619869, "riskTotal": 20, "numberPoints": 8},
-    {"centroid": {"lon": -75.57968545, "lat": 6.299967769999999}, "radius": 0.002646001349619869, "riskTotal": 9, "numberPoints": 3},
-    {"centroid": {"lon": -75.55524952588235, "lat": 6.24399797}, "radius": 0.002646001349619869, "riskTotal": 43, "numberPoints": 17},
-    {"centroid": {"lon": -75.59577678999999, "lat": 6.257978700000001}, "radius": 0.002646001349619869, "riskTotal": 24, "numberPoints": 10}
-]
